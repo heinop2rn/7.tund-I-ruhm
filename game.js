@@ -16,6 +16,7 @@
 
      this.online = null;
      this.status = null;
+     this.phone = null;
 
      this.init();
    };
@@ -27,6 +28,8 @@
      init: function(){
 
         console.log('started');
+        this.askPhone();
+        this.serveQuestion();
      },
      startCacheListeners: function(){
          this.cache.addEventListener('cached', this.logEvent.bind(this), false);
@@ -72,6 +75,51 @@
         }
 
         //console.log(message);
+     },
+     serveQuestion: function(){
+
+       //küsib TXT'i failist küsimuse
+       if(navigator.onLine){
+         //AJAX
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+            //kas oli küsimus
+            var q = JSON.parse(xhttp.responseText);
+            if(typeof q.id === 'undefined'){
+              console.log('küsimust ei olnud');
+              window.setTimeout(function(){
+                //ei olnud küsimust, proovi uuesti
+                Game.instance.serveQuestion();
+              },1000);
+            }else{
+              alert(q.question);
+            }
+          }
+        };
+        xhttp.open("GET", "question.txt", true);
+        xhttp.send();
+       }else{
+         window.setTimeout(function(){
+           //ei ole online, proovi 1s uuesti
+           Game.instance.serveQuestion();
+         },1000);
+       }
+
+     },
+     askPhone: function(){
+       if(localStorage.getItem("phone")){
+         this.phone = localStorage.getItem("phone");
+       }else{
+         var p = prompt("Phone nr:");
+         if(p){
+           localStorage.setItem("phone", p);
+           this.phone = p;
+         }else{
+           this.askPhone();
+         }
+       }
+
      }
 
     }; // Game LÕPP
