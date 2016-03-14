@@ -1,7 +1,8 @@
 CACHE MANIFEST
-# 2016-03-14 v0.0.3
+# 2016-03-14 v0.0.9
 game.js
 game.html
+style.css
 
 NETWORK:
 *

@@ -40,7 +40,7 @@
 
          window.applicationCache.addEventListener('updateready',function(){
              window.applicationCache.swapCache();
-             console.log('swap cache has been called');
+             //console.log('swap cache has been called');
          },false);
 
          setInterval(function(){
@@ -53,7 +53,14 @@
      },
      checkDeviceStatus: function(){
          this.online = (navigator.onLine) ? "online" : "offline";
-         console.log(this.online);
+         //console.log(this.online);
+         var bar = document.querySelector(".bar");
+         if(this.online == "online"){
+           bar.className = "bar online";
+         }else{
+           bar.className = "bar offline";
+         }
+
      },
      logEvent: function(event){
 
@@ -64,7 +71,7 @@
             message+= ' (prolly a syntax error in manifest)';
         }
 
-        console.log(message);
+        //console.log(message);
      }
 
     }; // Game LÕPP
